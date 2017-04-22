@@ -7,19 +7,19 @@ DROP TABLE IF EXISTS username;
 DROP TABLE IF EXISTS room;
 
 CREATE TABLE username (
-  id INT NOT NULL, 
+  id INT NOT NULL AUTO_INCREMENT, 
   name VARCHAR(255),
   PRIMARY KEY (id)  
 );
 
 CREATE TABLE room (
-  id INT NOT NULL, 
+  id INT NOT NULL AUTO_INCREMENT, 
   room_name VARCHAR(255),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE messages (
-  id INT NOT NULL, 
+  id INT NOT NULL AUTO_INCREMENT, 
   message_text VARCHAR(255) NULL,
   -- created_at DATE NOT NULL, 
   -- id_user INT NOT NULL,
