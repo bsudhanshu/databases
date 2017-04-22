@@ -22,7 +22,7 @@ CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT, 
   message_text VARCHAR(255) NULL,
   -- created_at DATE NOT NULL, 
-  -- id_user INT NOT NULL,
+  id_user INT NOT NULL,
   -- id_room INT NOT NULL,
   -- FOREIGN KEY (id_user) REFERENCES username(id),
   -- FOREIGN KEY (id_room) REFERENCES room(id),

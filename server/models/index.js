@@ -7,8 +7,18 @@ module.exports = {
     get: function (req, res) {}, // a function which produces all the messages
     
     post: function (req, res) {
-      var queryString = 'INSERT INTO messages (message_text) VALUES (' + '"' + req.body.message + '"' + ')';
-      db.query(queryString, function (){console.log('Posted message to db')});
+      var usernameIDstr = 'SELECT id FROM username WHERE name= ' + '"' + req.body.username + '"';
+
+      db.query(usernameIDstr, function (err, results){
+        usernameID = results[0].id;
+        console.log('usernameID', usernameID);
+
+        var queryString = 'INSERT INTO messages (message_text, id_user) VALUES (' + '"' + req.body.message + '"' + ',' + usernameID + ')';
+        
+        console.log('queryString', queryString)
+        db.query(queryString, function (){console.log('Posted message to db')});
+      });
+
    
       res.end();
     } // a function which can be used to insert a message into the database
