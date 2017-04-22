@@ -1,9 +1,14 @@
 var models = require('../models');
 var mysql = require('mysql');
+// var db = require('../db');
 
+// db.connect();
 
 module.exports = {
   messages: {
+    options : function (req, res) {
+      models.messages.options(req, res);
+    },    
     get: function (req, res) {
       models.messages.get(req, res);
     }, // a function which handles a get request for all messages
@@ -13,7 +18,6 @@ module.exports = {
   },
 
   users: {
-    // Ditto as above
     get: function (req, res) {
       models.users.get(req, res);
     },

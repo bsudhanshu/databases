@@ -21,16 +21,17 @@ CREATE TABLE room (
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT, 
   message_text VARCHAR(255) NULL,
+  username VARCHAR(255) NULL,
+  room_name VARCHAR(255),
   -- created_at DATE NOT NULL, 
-  id_user INT NOT NULL,
+  -- id_user INT NOT NULL,
   -- id_room INT NOT NULL,
   -- FOREIGN KEY (id_user) REFERENCES username(id),
   -- FOREIGN KEY (id_room) REFERENCES room(id),
   PRIMARY KEY (id)
 );
 
--- INSERT INTO username VALUES (1, 'alan');
--- INSERT INTO messages VALUES (1,"In mercy's name, three days is all I need.")
+-- INSERT INTO messages (message_text, username) VALUES ("In mercy's name, three days is all I need.","Valjean")
 
 
 /* Create other tables and define schemas for them here! */

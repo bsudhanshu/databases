@@ -16,11 +16,13 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-       var tablename = "room"; // TODO: fill this out
+       var tablename1 = "messages"; // TODO: fill this out
+       var tablename2 = "username"; // TODO: fill this out
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query('truncate ' + tablename, done);
+    dbConnection.query('truncate ' + tablename1);
+    dbConnection.query('truncate ' + tablename2, done);
   });
 
   afterEach(function() {
@@ -40,8 +42,8 @@ describe('Persistent Node Chat Server', function() {
         uri: 'http://127.0.0.1:3000/classes/messages',
         json: {
           username: 'Valjean',
-          message: 'In mercy\'s name, three days is all I need.',
-          roomname: 'Hello'
+          message_text: 'In mercy\'s name, three days is all I need.',
+          room_name: 'Hello'
         }
       }, function () {
         // Now if we look in the database, we should find the
@@ -67,7 +69,7 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "";
+       var queryString = "INSERT INTO messages (message_text, room_name) VALUES ('Men like you can never change!', 'main')";
        var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
@@ -75,7 +77,6 @@ describe('Persistent Node Chat Server', function() {
 
     dbConnection.query(queryString, queryArgs, function(err) {
       if (err) { throw err; }
-
       // Now query the Node chat server and see if it returns
       // the message we just inserted:
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {

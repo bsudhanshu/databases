@@ -2,33 +2,52 @@ var db = require('../db');
 
 db.connect();
 
+var defaultCorsHeaders = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'access-control-allow-headers': 'content-type, accept',
+  'access-control-max-age': 10 // Seconds.
+};
+var headers = defaultCorsHeaders;
+headers['Content-Type'] = 'text/plain';
+
+
 module.exports = {
   messages: {
-    get: function (req, res) {}, // a function which produces all the messages
+    options : function (req, res) {
+      res.writeHead(200, headers);
+      res.end();
+    },
+    get: function (req, res) {
+      res.writeHead(200, headers);
+      
+      var getMesgStr = 'SELECT * FROM messages';
+      db.query(getMesgStr, function (err, results){
+        res.end(JSON.stringify(results));
+      })
+    }, // a function which produces all the messages
     
     post: function (req, res) {
-      var usernameIDstr = 'SELECT id FROM username WHERE name= ' + '"' + req.body.username + '"';
+      res.writeHead(200, headers);
 
-      db.query(usernameIDstr, function (err, results){
-        usernameID = results[0].id;
-        console.log('usernameID', usernameID);
+      // var usernameIDstr = 'SELECT id FROM username WHERE name= ' + '"' + req.body.username + '"';
 
-        var queryString = 'INSERT INTO messages (message_text, id_user) VALUES (' + '"' + req.body.message + '"' + ',' + usernameID + ')';
-        
-        console.log('queryString', queryString)
+      // db.query(usernameIDstr, function (err, results){
+        // usernameID = results[0].id;
+        var queryString = 'INSERT INTO messages (message_text, username, room_name) VALUES (' + '"' + req.body.message_text + '"' + ',' + '"' + req.body.username + '"' + ',' + '"' + req.body.room_name + '"' + ')';
         db.query(queryString, function (){console.log('Posted message to db')});
-      });
+      // });
 
-   
-      res.end();
+      res.end();      
     } // a function which can be used to insert a message into the database
   },
 
   users: {
-    // Ditto as above.
     get: function (req, res) {},
     
     post: function (req, res) {
+      res.writeHead(200, headers);
+
       var queryString = 'INSERT INTO username (name) VALUES ('+ '"' + req.body.username + '"' + ')';
       db.query(queryString, function (){console.log('Posted username to db')});
             
